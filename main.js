@@ -21,7 +21,7 @@ taskList.innerHTML = todoList.map(task => `
             <span class="task-title">${task.label}</span>
             <div class="task-action">
                 <button class="task-btn edit">Edit</button>
-                <button class="task-btn done">${task.status ? "Mark as done" : "Mark as undone"}</button>
+                <button class="task-btn done">${task.status ? "Mark as undone" : "Mark as done"}</button>
                 <button class="task-btn delete">Delete</button>
             </div>
         </li>
