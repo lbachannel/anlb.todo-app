@@ -15,6 +15,9 @@ taskList.onclick = function(e) {
         const getValue = prompt('Task label: ', todoList[index].label);
         todoList[index].label = getValue;
         render();
+    } else if (e.target.closest('.done')) {
+        todoList[index].status = !todoList[index].status;
+        render();
     }
 }
 
