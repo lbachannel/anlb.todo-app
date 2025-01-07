@@ -8,25 +8,25 @@ const taskList = $('#task-list');
 const todoForm = $('#todo-form');
 const todoInput = $('#todo-input');
 
-taskList.onclick = function(e) {
+function handleTaskActions(e) {
     const parentElement = e.target.closest('.task-item');
     const index = +parentElement.getAttribute('data-index');
     if (e.target.closest('.edit')) {
         const getValue = prompt('Task label: ', todoList[index].label);
         todoList[index].label = getValue;
-        render();
+        renderTasks();
     } else if (e.target.closest('.done')) {
         todoList[index].status = !todoList[index].status;
-        render();
+        renderTasks();
     } else if (e.target.closest('.delete')) {
         if (confirm(`Are you sure you want to delete this task: ${todoList[index].label}`)) {
             todoList.splice(index, 1);
-            render();
+            renderTasks();
         }
     }
 }
 
-todoForm.onsubmit = function(e) {
+function addTask(e) {
     e.preventDefault();
     const value = todoInput.value.trim();
 
@@ -35,17 +35,15 @@ todoForm.onsubmit = function(e) {
         return;
     }
 
-    const createTask = {
+    todoList.push({
         label: value,
         status: false
-    }
-
-    todoList.push(createTask);
+    });
     todoInput.value = "";
-    render();
+    renderTasks();
 }
 
-const render = () => {
+const renderTasks = () => {
     taskList.innerHTML = todoList.map((task, index) => `
         <li class="task-item ${task.status ? "completed" : ""}" data-index=${index}>
             <span class="task-title">${task.label}</span>
@@ -59,4 +57,7 @@ const render = () => {
     ).join("");
 };
 
-render();
+todoForm.addEventListener('submit', addTask);
+taskList.addEventListener('click' , handleTaskActions);
+
+renderTasks();
