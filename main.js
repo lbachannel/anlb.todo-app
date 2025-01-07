@@ -1,22 +1,33 @@
 const todoList = [
-    {
-        label: "design admin template",
-        status: true
-    },
-    {
-        label: "create a new user api",
-        status: false
-    },
-    {
-        label: "config security",
-        status: false
-    }
-]
+    { label: "design template", status: false }
+];
 
 const $ = document.querySelector.bind(document);
-let taskList = $('#task-list');
+const taskList = $('#task-list');
+const todoForm = $('#todo-form');
+const todoInput = $('#todo-input');
 
-taskList.innerHTML = todoList.map(task => `
+todoForm.onsubmit = function(e) {
+    e.preventDefault();
+    const value = todoInput.value.trim();
+
+    if (!value) {
+        alert("Please write something");
+        return;
+    }
+
+    const createTask = {
+        label: value,
+        status: false
+    }
+
+    todoList.push(createTask);
+    todoInput.value = "";
+    render();
+}
+
+const render = () => {
+    taskList.innerHTML = todoList.map(task => `
         <li class="task-item ${task.status ? "completed" : ""}">
             <span class="task-title">${task.label}</span>
             <div class="task-action">
@@ -26,4 +37,7 @@ taskList.innerHTML = todoList.map(task => `
             </div>
         </li>
     `
-).join("");
+    ).join("");
+};
+
+render();
