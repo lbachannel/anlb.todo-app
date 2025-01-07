@@ -1,7 +1,4 @@
-const todoList = [
-    { label: "design template", status: false },
-    { label: "design template 1", status: false }
-];
+const todoList = [];
 
 const $ = document.querySelector.bind(document);
 const taskList = $('#task-list');
@@ -44,17 +41,21 @@ function addTask(e) {
 }
 
 const renderTasks = () => {
-    taskList.innerHTML = todoList.map((task, index) => `
-        <li class="task-item ${task.status ? "completed" : ""}" data-index=${index}>
-            <span class="task-title">${task.label}</span>
-            <div class="task-action">
-                <button class="task-btn edit">Edit</button>
-                <button class="task-btn done">${task.status ? "Mark as undone" : "Mark as done"}</button>
-                <button class="task-btn delete">Delete</button>
-            </div>
-        </li>
-    `
-    ).join("");
+    if (todoList.length > 0) {
+        taskList.innerHTML = todoList.map((task, index) => `
+            <li class="task-item ${task.status ? "completed" : ""}" data-index=${index}>
+                <span class="task-title">${task.label}</span>
+                <div class="task-action">
+                    <button class="task-btn edit">Edit</button>
+                    <button class="task-btn done">${task.status ? "Mark as undone" : "Mark as done"}</button>
+                    <button class="task-btn delete">Delete</button>
+                </div>
+            </li>
+        `
+        ).join("");
+    } else {
+        taskList.innerHTML = `<li class="empty-message">No task available</li>`;
+    }
 };
 
 todoForm.addEventListener('submit', addTask);
