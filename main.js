@@ -10,7 +10,14 @@ function handleTaskActions(e) {
     const index = +parentElement.getAttribute('data-index');
     if (e.target.closest('.edit')) {
         const getValue = prompt('Task label: ', todoList[index].label);
-        todoList[index].label = getValue;
+
+        if (!getValue) {
+            return;
+        } else if (getValue.trim() === '') {
+            alert("Please write something");
+            return;
+        }
+        todoList[index].label = getValue.trim();
         renderTasks();
     } else if (e.target.closest('.done')) {
         todoList[index].status = !todoList[index].status;
