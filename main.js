@@ -18,6 +18,9 @@ function handleTaskActions(e) {
             return;
         }
         if (checkTaskExisted(getValue.trim())) {
+            if (getValue.trim() === todoList[index].label) {
+                return;
+            }
             alert("Task already exist!");
             return;
         }
