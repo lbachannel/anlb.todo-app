@@ -17,6 +17,10 @@ function handleTaskActions(e) {
             alert("Please write something");
             return;
         }
+        if (checkTaskExisted(getValue.trim())) {
+            alert("Task already exist!");
+            return;
+        }
         todoList[index].label = getValue.trim();
         renderTasks();
     } else if (e.target.closest('.done')) {
@@ -30,6 +34,14 @@ function handleTaskActions(e) {
     }
 }
 
+const checkTaskExisted = value => {
+    for (const key in todoList) {
+        if (value === todoList[key].label)
+        return true;
+    }
+    return false;
+}
+
 function addTask(e) {
     e.preventDefault();
     const value = todoInput.value.trim();
@@ -37,6 +49,14 @@ function addTask(e) {
     if (!value) {
         alert("Please write something");
         return;
+    }
+
+    if (todoList.length > 0) {
+        if (checkTaskExisted(value)) {
+            alert("Task already exist!");
+            todoInput.value = "";
+            return;
+        }
     }
 
     todoList.push({
