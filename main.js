@@ -1,11 +1,22 @@
 const todoList = [
-    { label: "design template", status: false }
+    { label: "design template", status: false },
+    { label: "design template 1", status: false }
 ];
 
 const $ = document.querySelector.bind(document);
 const taskList = $('#task-list');
 const todoForm = $('#todo-form');
 const todoInput = $('#todo-input');
+
+taskList.onclick = function(e) {
+    const parentElement = e.target.closest('.task-item');
+    const index = +parentElement.getAttribute('data-index');
+    if (e.target.closest('.edit')) {
+        const getValue = prompt('Task label: ', todoList[index].label);
+        todoList[index].label = getValue;
+        render();
+    }
+}
 
 todoForm.onsubmit = function(e) {
     e.preventDefault();
@@ -27,8 +38,8 @@ todoForm.onsubmit = function(e) {
 }
 
 const render = () => {
-    taskList.innerHTML = todoList.map(task => `
-        <li class="task-item ${task.status ? "completed" : ""}">
+    taskList.innerHTML = todoList.map((task, index) => `
+        <li class="task-item ${task.status ? "completed" : ""}" data-index=${index}>
             <span class="task-title">${task.label}</span>
             <div class="task-action">
                 <button class="task-btn edit">Edit</button>
