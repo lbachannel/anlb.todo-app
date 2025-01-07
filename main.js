@@ -18,6 +18,11 @@ taskList.onclick = function(e) {
     } else if (e.target.closest('.done')) {
         todoList[index].status = !todoList[index].status;
         render();
+    } else if (e.target.closest('.delete')) {
+        if (confirm(`Are you sure you want to delete this task: ${todoList[index].label}`)) {
+            todoList.splice(index, 1);
+            render();
+        }
     }
 }
 
