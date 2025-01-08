@@ -7,6 +7,9 @@ const todoInput = $('#todo-input');
 
 function handleTaskActions(e) {
     const parentElement = e.target.closest('.task-item');
+    if (!parentElement) {
+        return;
+    }
     const index = +parentElement.getAttribute('data-index');
     if (e.target.closest('.edit')) {
         const getValue = prompt('Task label: ', todoList[index].label);
