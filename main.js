@@ -9,6 +9,12 @@ function setDataIntoLocalStorage() {
     localStorage.setItem('todoList', JSON.stringify(todoList));
 }
 
+function escapeHTML(htmlCode) {
+    const div = document.createElement('div');
+    div.innerText = htmlCode;
+    return div.innerHTML;
+}
+
 function handleTaskActions(e) {
     const parentElement = e.target.closest('.task-item');
     if (!parentElement) {
@@ -85,7 +91,7 @@ const renderTasks = () => {
     if (todoList.length > 0) {
         taskList.innerHTML = todoList.map((task, index) => `
             <li class="task-item ${task.status ? "completed" : ""}" data-index=${index}>
-                <span class="task-title">${task.label}</span>
+                <span class="task-title">${escapeHTML(task.label)}</span>
                 <div class="task-action">
                     <button class="task-btn edit">Edit</button>
                     <button class="task-btn done">${task.status ? "Mark as undone" : "Mark as done"}</button>
