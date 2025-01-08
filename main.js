@@ -1,9 +1,13 @@
-const todoList = [];
+const todoList = JSON.parse(localStorage.getItem('todoList')) ?? [];
 
 const $ = document.querySelector.bind(document);
 const taskList = $('#task-list');
 const todoForm = $('#todo-form');
 const todoInput = $('#todo-input');
+
+function setDataIntoLocalStorage() {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+}
 
 function handleTaskActions(e) {
     const parentElement = e.target.closest('.task-item');
@@ -28,13 +32,16 @@ function handleTaskActions(e) {
             return;
         }
         todoList[index].label = getValue.trim();
+        setDataIntoLocalStorage();
         renderTasks();
     } else if (e.target.closest('.done')) {
         todoList[index].status = !todoList[index].status;
+        setDataIntoLocalStorage()
         renderTasks();
     } else if (e.target.closest('.delete')) {
         if (confirm(`Are you sure you want to delete this task: ${todoList[index].label}`)) {
             todoList.splice(index, 1);
+            setDataIntoLocalStorage();
             renderTasks();
         }
     }
@@ -69,6 +76,7 @@ function addTask(e) {
         label: value,
         status: false
     });
+    setDataIntoLocalStorage();
     todoInput.value = "";
     renderTasks();
 }
